@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sgcruiser/myproject-with-webpack.git"
+    "url": "git+https://github.com/sgcruiser/goit-js-hw-11-timer.git"
   },
   "keywords": [],
   "author": "Glazyrin Sergey <glazyrinsb@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sgcruiser/myproject-with-webpack.git"
+    "url": "https://github.com/sgcruiser/goit-js-hw-11-timer.git"
   },
-  "homepage": "https://github.com/sgcruiser/myproject-with-webpack.git",
+  "homepage": "https://sgcruiser.github.io/goit-js-hw-11-timer/",
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/plugin-proposal-class-properties": "^7.10.4",

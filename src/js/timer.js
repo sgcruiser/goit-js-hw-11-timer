@@ -1,29 +1,71 @@
-new CountdownTimer({
+const refs = {
+  days: document.querySelector('.value[data-value="days"]'),
+  hours: document.querySelector('.value[data-value="hours"]'),
+  mins: document.querySelector('.value[data-value="mins"]'),
+  secs: document.querySelector('.value[data-value="secs"]'),
+};
+
+class CountdownTimer {
+  constructor({ selector, targetDate }) {
+    this.selector = selector;
+    this.targetDate = targetDate;
+  }
+
+  start() {
+    let startTime = Date.now();
+
+    this.deltaDates = Math.floor(
+      (this.targetDate - startTime) / (1000 * 60 * 60 * 24),
+    );
+    // console.dir(this.deltaDates);
+
+    this.intervalId = setInterval(() => {
+      startTime = Date.now();
+      const deltaTime = this.targetDate - startTime;
+
+      this.updateClockface(deltaTime);
+    }, 1000);
+  }
+
+  stop() {
+    clearInterval(this.intervalId);
+    this.intervalId = null;
+  }
+
+  updateClockface(time) {
+    if (time <= 0) {
+      return this.stop();
+    }
+
+    const days = this.padDate(Math.floor(time / (1000 * 60 * 60 * 24)));
+    const hours = this.padClock(
+      Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    );
+    const mins = this.padClock(
+      Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)),
+    );
+    const secs = this.padClock(Math.floor((time % (1000 * 60)) / 1000));
+
+    refs.days.textContent = `${days}`;
+    refs.hours.textContent = `${hours}`;
+    refs.mins.textContent = `${mins}`;
+    refs.secs.textContent = `${secs}`;
+  }
+
+  padDate(value) {
+    // console.log(String(this.deltaDates).length);
+    return String(value).padStart(String(this.deltaDates).length, '0');
+  }
+
+  padClock(value) {
+    return String(value).padStart(2, '0');
+  }
+}
+
+const timer = new CountdownTimer({
   selector: '#timer-1',
-  targetDate: new Date('Jul 17, 2019'),
+  targetDate: new Date('Oct 28, 2023, 19:06:19'),
 });
 
-/*
- * Оставшиеся дни: делим значение UTC на 1000 * 60 * 60 * 24, количество
- * миллисекунд в одном дне (миллисекунды * секунды * минуты * часы)
- */
-const days = Math.floor(time / (1000 * 60 * 60 * 24));
-
-/*
- * Оставшиеся часы: получаем остаток от предыдущего расчета с помощью оператора
- * остатка % и делим его на количество миллисекунд в одном часе
- * (1000 * 60 * 60 = миллисекунды * минуты * секунды)
- */
-const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-/*
- * Оставшиеся минуты: получаем оставшиеся минуты и делим их на количество
- * миллисекунд в одной минуте (1000 * 60 = миллисекунды * секунды)
- */
-const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-
-/*
- * Оставшиеся секунды: получаем оставшиеся секунды и делим их на количество
- * миллисекунд в одной секунде (1000)
- */
-const secs = Math.floor((time % (1000 * 60)) / 1000);
+// console.log(timer);
+timer.start();
